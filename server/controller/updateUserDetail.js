@@ -3,17 +3,19 @@ const userModel = require("../models/userModel")
 
 async function updateUserDetails(request,response){
     try{
+        const token = request.cookies.token || ""
         const user = await getUserDetailsFromToken(token)
 
         const { name, profile_pic } = request.body
-        const updateUser = await UserModel.updateOne({
-            _id:user._id,
+        const updateUser = await userModel.updateOne({
+            _id:user._id},{
             name,
-            profile_pic
-        })
+            profile_pic}
+        )
         const userInformation  =  await userModel.findById(user._id)
         return response.json({
-            message : userInformation,
+            message : "Edited successfully",
+            data:userInformation,
             success : true
         })
     }
