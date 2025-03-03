@@ -3,10 +3,16 @@ const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 async function checkPassword(request, response) {
     try {
-
+        console.log("Received request body:", request.body);
             const {password, userId} = request.body
+            console.log(userId)
             const user = await userModel.findById(userId)
-
+            // if (!user) {
+            //     return response.status(400).json({
+            //         message: "User not found",
+            //         error: true
+            //     });
+            // }
             const verifyPassword = await bcryptjs.compare(password, user.password)
         if(!verifyPassword){
             return response.status(400).json({
