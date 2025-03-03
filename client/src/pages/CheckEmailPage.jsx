@@ -56,7 +56,7 @@ const CheckEmailPage = () => {
 
             size={70} />
         </div>
-        <h3>Welcome to chat app</h3>
+        <h3 className='text-center'>Welcome to chat app</h3>
         <form className='grid gap-3 mt-5' onSubmit={handleSubmit}>
 
           {/* Email */}
@@ -66,7 +66,7 @@ const CheckEmailPage = () => {
               id='email'
               name='email'
               placeholder='Enter  your email'
-              className='bg-slate-100 px-2 py-2 focus:outline-primary'
+              className='bg-slate-100 px-2 py-2 focus:outline focus:outline-2 focus:outline-purple2'
               value={data.email}
               onChange={handleOnChange}
               required
@@ -76,12 +76,12 @@ const CheckEmailPage = () => {
 
 
           <button
-            className='bg-primary text-lg  px-4 py1 hover:bg-secondary rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
+            className='bg-purple2 text-lg  px-4 py1 hover:bg-purple1 rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
           >
             Let's Go
           </button>
         </form>
-        <p className='my-3 text-center'>New User? <Link to={"/register"} className="hover:text-primary font-semibold">Register</Link></p>
+        <p className='my-3 text-center'>New User? <Link to={"/register"} className="hover:text-purple1 font-semibold">Register</Link></p>
       </div>
     </div>
   )

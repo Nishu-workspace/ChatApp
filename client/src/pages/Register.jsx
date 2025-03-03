@@ -71,7 +71,7 @@ const Register = () => {
   return (
     <div className="mt-5">
       <div className="bg-white w-full max-w-sm mx-2 rounded overflow-hidden p-4 mx-auto">
-        <h3>Welcome to chat app</h3>
+        <h3 className='text-center font-bold text-lg' >Welcome to chat app</h3>
         <form className='grid gap-3 mt-5' onSubmit={handleSubmit}>
           {/* Name */}
           <div className="flex flex-col gap-1">
@@ -80,7 +80,7 @@ const Register = () => {
               id='name'
               name='name'
               placeholder='Enter  your name'
-              className='bg-slate-100 px-2 py-2 focus:outline-primary'
+              className='bg-slate-100 px-2 py-2 focus:outline focus:outline-2 focus:outline-purple2'
               value={data.name}
               onChange={handleOnChange}
               required
@@ -93,7 +93,7 @@ const Register = () => {
               id='email'
               name='email'
               placeholder='Enter  your email'
-              className='bg-slate-100 px-2 py-2 focus:outline-primary'
+              className='bg-slate-100 px-2 py-2 focus:outline focus:outline-2 focus:outline-purple2'
               value={data.email}
               onChange={handleOnChange}
               required
@@ -106,7 +106,7 @@ const Register = () => {
               id='password'
               name='password'
               placeholder='Enter  your password'
-              className='bg-slate-100 px-2 py-2 focus:outline-primary'
+              className='bg-slate-100 px-2 py-2 focus:outline focus:outline-2 focus:outline-purple2'
               value={data.password}
               onChange={handleOnChange}
               required
@@ -115,13 +115,14 @@ const Register = () => {
           {/* profile pic */}
           <div className="flex flex-col gap-1">
             <label htmlFor="profile_pic">Profile_pic
-              <div className="h-14 bg-slate-200 flex justify-center items-center border-2 rounded-sm hover:border-primary ">
-                <p className='text-sm'>
+              <div className="h-14 bg-slate-200 flex justify-center items-center border-2 rounded-sm hover:border-purple1 ">
+                <p className='text-sm max-w-[300] text-ellipsis line-clamp-1'>
                   {uploadPhoto?.name ? uploadPhoto?.name : "Upload profile photo"}
                 </p>
                 {
                   uploadPhoto?.name && (
-                    <button onClick={handleClearUploaadPhoto}>  <IoIosClose /> </button>
+                    <button className='text-xl  ml-2  hover:text-red-400' onClick={handleClearUploaadPhoto}>  <IoIosClose /> 
+                    </button>
 
                   )
                 }
@@ -138,12 +139,12 @@ const Register = () => {
             />
           </div>
           <button
-            className='bg-primary text-lg  px-4 py1 hover:bg-secondary rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
+            className='bg-purple2 text-lg  px-4 py1 hover:bg-purple1 rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
           >
             Register
           </button>
         </form>
-        <p className='my-3 text-center'>Alredy have account? <Link to={"/email"} className="hover:text-primary font-semibold">Login</Link></p>
+        <p className='my-3 text-center'>Alredy have account? <Link to={"/email"} className="hover:text-purple1 font-semibold">Login</Link></p>
       </div>
     </div>
   )
