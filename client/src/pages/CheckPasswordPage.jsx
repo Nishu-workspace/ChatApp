@@ -7,6 +7,8 @@ import toast from 'react-hot-toast';
 import { CiUser } from "react-icons/ci";
 
 import Avatar from '../components/Avatar';
+import { useDispatch } from 'react-redux';
+import { setToken, setUser } from '../redux/userSlice';
 
 const  CheckPasswordPage = () => {
   const [data, setData] = useState({
@@ -16,6 +18,7 @@ const  CheckPasswordPage = () => {
   
   const navigate = useNavigate()
   const location = useLocation()
+  const  dispatch = useDispatch()
   console.log("location", location?.state)
 
   useEffect(()=>{
@@ -54,8 +57,9 @@ const  CheckPasswordPage = () => {
       })
       // console.log("response", response)
       toast.success(response?.data?.message)
-
       if (response?.data?.success) {
+        dispatch(setToken(response?.data?.token))
+        localStorage.setItem('token',response?.data?.token)
         setData({
           password: "",
         })
