@@ -5,6 +5,13 @@ import uploadFile from '../helpers/uploadFile'
 import axios from 'axios'
 import toast from 'react-hot-toast';
 const Register = () => {
+
+  const handleBlur = (e) => {
+    // If the input is invalid when the user leaves the field, show a toast
+    if (!e.target.validity.valid) {
+      toast.error("Please enter a valid email address");
+    }
+  };
   const location = useLocation()
   const initialEmail = location.state?.email || '';
   const [data, setData] = useState({
@@ -104,6 +111,8 @@ const Register = () => {
             <input type="email"
               id='email'
               name='email'
+              onBlur={handleBlur}
+             
               placeholder='Enter  your email'
               defaultValue={data.email}
               className='bg-slate-100 px-2 py-2 focus:outline focus:outline-2 focus:outline-purple2'
