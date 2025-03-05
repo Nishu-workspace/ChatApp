@@ -13,6 +13,13 @@ export default {
       purple1:"#7E25C6",
       purple2:"#E6C8FF"
       },
+      keyframes: {
+       
+        
+      },
+      animation: {
+      
+      },
       
     },
   },

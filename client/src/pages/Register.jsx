@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { IoIosClose } from "react-icons/io";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import uploadFile from '../helpers/uploadFile'
 import axios from 'axios'
 import toast from 'react-hot-toast';
 const Register = () => {
+  const location = useLocation()
+  const initialEmail = location.state?.email || '';
   const [data, setData] = useState({
     name: "",
-    email: "",
+    email: initialEmail,
     password: "",
     profile_pic: ""
   })
+ 
   const [uploadPhoto, setUploadPhoto] = useState("")
   const navigate = useNavigate()
   const handleOnChange = (e) => {
@@ -43,7 +46,16 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.stopPropagation()
     e.preventDefault()
-
+    if (data.password.length < 8 || data.password.length > 10 ) {
+      toast.error("Password must be at least 8 and Atmost 10 Character Long");
+      return;
+    }
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
+    if (!regex.test(data.password)) {
+      toast.error("Password must contain at least one number and one special character");
+      return;
+    }
+    
     const URL = `${import.meta.env.VITE_BACKEND_URL}/api/register`
     console.log(data)
 
@@ -93,8 +105,10 @@ const Register = () => {
               id='email'
               name='email'
               placeholder='Enter  your email'
+              defaultValue={data.email}
               className='bg-slate-100 px-2 py-2 focus:outline focus:outline-2 focus:outline-purple2'
               value={data.email}
+             
               onChange={handleOnChange}
               required
             />

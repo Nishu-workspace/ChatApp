@@ -16,4 +16,7 @@
   -moz-osx-font-smoothing: grayscale;
   @apply  bg-slate-200
 }
+html {
+  scroll-behavior: smooth;
+}
 
