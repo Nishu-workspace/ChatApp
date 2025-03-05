@@ -32,7 +32,7 @@ try{
     const user  = new userModel(payload)
     const userSave = await user.save()
     return response.status(201).json({
-        messaage: "User created successfully",
+        message: "User created successfully",
         data : userSave,
         success: true
     })

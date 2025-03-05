@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import toast, { Toaster } from 'react-hot-toast';
 
 import './App.css'
 import { Outlet } from 'react-router'
@@ -8,11 +8,12 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    
-      <h1>
+    <>
+    <Toaster/>
+      <main>
        <Outlet/>
-      </h1>
-    
+      </main>
+      </>
   )
 }
 

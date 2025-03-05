@@ -1,15 +1,19 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
-import logo from '../assets/logo.png'
+import chat_app_logo from '../assets/chat_app_logo.png'
 const AuthLayouts = ({children}) => {
   return (
     <>
     <header className="flex justify-center items-center py-3 h-20 shadow-md  bg-white">
       <img
-        src={logo}
+        src={chat_app_logo}
         alt="logo"
-        width={100}
-        height={60}
+        width={80}
+        height={30}
       />
+      <h1 className='font-bold text-2xl'>
+        Chat App
+      </h1>
     </header>
     {
 children

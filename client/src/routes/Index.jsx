@@ -6,11 +6,17 @@ import CheckPasswordPage from '../pages/CheckPasswordPage'
 import Home from '../pages/Home'
 import MessagePage from '../components/MessagePage'
 import AuthLayouts from '../layout'
+import ForgotPassword from '../pages/ForgotPassword'
+import LandingPage from '../pages/LandingPage'
 const router = createBrowserRouter([
     {
         path:"/",
         element:<App/>,
         children:  [
+            {
+                path:"/",
+                element:<LandingPage/>
+            },
             {
                 path:"register",
                 element:<AuthLayouts><Register/></AuthLayouts>,
@@ -24,7 +30,11 @@ const router = createBrowserRouter([
                 element:<AuthLayouts><CheckPasswordPage/></AuthLayouts>
             },
             {
-                path:"/",
+                path:"forgot-password",
+                element:<AuthLayouts><ForgotPassword/></AuthLayouts>
+            },
+            {
+                path:"/home",
                 element:<Home/>,
                 children: [
                     {
