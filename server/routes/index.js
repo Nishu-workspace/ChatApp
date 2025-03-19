@@ -5,6 +5,8 @@ const checkPassword = require('../controller/checkPassword')
 const userDetails = require('../controller/userDetails')
 const logout = require('../controller/logout')
 const updateUserDetails = require('../controller/updateUserDetail')
+const verifyOtp = require('../controller/verifyOtp')
+
 
 const router = express.Router();
 
@@ -24,4 +26,7 @@ router.get('/logout',logout)
 
 //update user
 router.post('/update-user',updateUserDetails)
+
+//verify otp
+router.post('/verify-otp', verifyOtp)
 module.exports = router

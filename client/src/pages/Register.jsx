@@ -5,7 +5,13 @@ import uploadFile from '../helpers/uploadFile'
 import axios from 'axios'
 import toast from 'react-hot-toast';
 const Register = () => {
-
+  const [cpass,setCpass] = useState()
+  const handelConfrimPass = (e)=>{
+    setCpass(e.target.value)
+    if(e.target.value != data.password){
+      toast.error("Password doesn't match")
+    }
+  }
   const handleBlur = (e) => {
     // If the input is invalid when the user leaves the field, show a toast
     if (!e.target.validity.valid) {
@@ -63,6 +69,11 @@ const Register = () => {
       return;
     }
     
+    if(cpass != data.password){
+
+      toast.error("Password doesn't match")
+      return;
+    }
     const URL = `${import.meta.env.VITE_BACKEND_URL}/api/register`
     console.log(data)
 
@@ -78,7 +89,7 @@ const Register = () => {
           password: "",
           profile_pic: ""
         })
-        navigate('/email')
+        navigate('/verify-otp', {state: {email: data.email}})
       }
     } catch (error) {
       toast.error(error?.response?.data?.message)
@@ -132,6 +143,17 @@ const Register = () => {
               className='bg-slate-100 px-2 py-2 focus:outline focus:outline-2 focus:outline-purple2'
               value={data.password}
               onChange={handleOnChange}
+              required
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="confirm-password">Confirm Password</label>
+            <input type="password"
+              id='confirm-password'
+              name='confirm-password'
+              placeholder='Confirm Password'
+              className='bg-slate-100 px-2 py-2 focus:outline focus:outline-2 focus:outline-purple2'
+              onBlur={handelConfrimPass}
               required
             />
           </div>
