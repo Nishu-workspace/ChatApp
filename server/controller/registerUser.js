@@ -37,8 +37,15 @@ try{
         await transporter.sendMail({
             from: '"Support Team" suppor.chatapp@zohomail.in',
             to: email,
-            subject: "Verfiy your  Email - OTP",
-            text:`Your OTP for email verification is: ${otp}`
+            subject: `Verfiy your  Email - ${otp}`,
+            html:`<h1>Welcome to Chat App</h1>
+            <span style="padding: 5px; margin:2px; border: solid 1px #7E25C6; background-color:#E6C8FF "> ${otp[0]} </span> 
+            <span style="padding: 5px; margin:2px; border: solid 1px #7E25C6; background-color:#E6C8FF"> ${otp[1]} </span> 
+            <span style="padding: 5px; margin:2px; border: solid 1px #7E25C6; background-color:#E6C8FF"> ${otp[2]} </span> 
+            <span style="padding: 5px; margin:2px; border: solid 1px #7E25C6; background-color:#E6C8FF"> ${otp[3]} </span> 
+            <span style="padding: 5px; margin:2px; border: solid 1px #7E25C6; background-color:#E6C8FF"> ${otp[4]} </span> 
+            <span style="padding: 5px; margin:2px; border: solid 1px #7E25C6; background-color:#E6C8FF"> ${otp[5]} </span>
+            `
         })
         return response.status(201).json({
             message: "OTP   sent to email, verify your email",

@@ -44,7 +44,7 @@ const Avatar = ({userId,name,imageUrl,width,height}) => {
                       </div>  
                 ):(
                      <CiUser
-                size={70}/>
+                size={25}/>
                 )
             )
         }
