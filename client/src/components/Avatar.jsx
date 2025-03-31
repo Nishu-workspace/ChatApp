@@ -1,7 +1,9 @@
 import React from 'react'
 import { CiUser } from 'react-icons/ci'
+import { useSelector } from 'react-redux'
 
 const Avatar = ({userId,name,imageUrl,width,height}) => {
+    const onlineUser = useSelector(state => state?.user?.onlineUser)
 
     //Nishu Patel =  NP
 
@@ -24,10 +26,14 @@ const Avatar = ({userId,name,imageUrl,width,height}) => {
         'bg-green-200',
         'bg-yellow-200'
     ]
+
+
     const randomNumber = Math.floor(Math.random() *5)
-    console.log(randomNumber)
+    
+
+    const isOnline = onlineUser.includes(userId)
   return (
-    <div className={`text-slate-800 overflow-hidden rounded-full shadow border text-xl font-bold `}>
+    <div className={`text-slate-800  rounded-full  text-xl font-bold  relative`} style={{width:width+"px", height:height+"px"}}>
         {
             imageUrl ? (
                 <img
@@ -35,6 +41,7 @@ const Avatar = ({userId,name,imageUrl,width,height}) => {
                 width={width}
                 height={height}
                 alt={name}
+                className='overflow-hidden rounded-full'
                 />
                
             ) : (
@@ -44,10 +51,17 @@ const Avatar = ({userId,name,imageUrl,width,height}) => {
                       </div>  
                 ):(
                      <CiUser
-                size={25}/>
+                size={width}/>
                 )
             )
         }
+        {
+            isOnline &&  (
+            <div className='bg-green-500 p-1 absolute bottom-2 right-0 rounded-full'>
+
+            </div>)
+        }
+       
     </div>
      
   )
