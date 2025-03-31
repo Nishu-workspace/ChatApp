@@ -10,6 +10,8 @@ import { IoVideocam } from "react-icons/io5";
 import uploadFile from '../helpers/uploadFile';
 import { IoClose } from "react-icons/io5";
 import Loading from './Loading';
+import backgroundImage from '../assets/wallapaper.jpeg'
+import { IoSend } from "react-icons/io5";
 
 const MessagePage = () => {
   const params = useParams()
@@ -24,14 +26,14 @@ const MessagePage = () => {
   })
 
   const [openImageVideoUpload, setOpenImageVideoUpload] = useState(false)
-  const [loading, setLoading] =useState(false)
+  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState({
     text: "",
     imageUrl: "",
     videoUrl: ""
   })
   const handleUploadImageVideoOpen = () => {
-    
+
     setOpenImageVideoUpload(preve => !preve)
   }
   useEffect(() => {
@@ -58,9 +60,9 @@ const MessagePage = () => {
       }
     })
 
-  
+
   }
-  const handleClearUploadImage = ()=>{
+  const handleClearUploadImage = () => {
     setMessage(preve => {
       return {
         ...preve,
@@ -68,7 +70,7 @@ const MessagePage = () => {
       }
     })
   }
-  const handleClearUploadVideo = ()=>{
+  const handleClearUploadVideo = () => {
     setMessage(preve => {
       return {
         ...preve,
@@ -90,8 +92,33 @@ const MessagePage = () => {
       }
     })
   }
+  const handleOnChange = (e) => {
+    const { name, value } = e.target
+    setMessage(preve => {
+      return {
+        ...preve,
+        text: value
+      }
+    })
+  }
+  const handleSendMessage = (e)=>{
+          e.preventDefault()
+          if(message.text || message.imageUrl || message.videoUrl){
+            if(socketConnection){
+              socketConnection.emit('new message',{
+                  sender : user?._id,
+                  receiver: params.userId,
+                  text: message?.text,
+                  imageUrl: message?.imageUrl,
+                  videoUrl : message?.videoUrl
+
+
+              })
+            }
+          }
+  }
   return (
-    <div>
+    <div style={{ backgroundImage: `url(${backgroundImage})` }} className='bg-no-repeat  bg-cover '>
       <header className='sticky top-0 h-16  bg-white flex justify-between items-center px-4'>
         <div className='flex items-center gap-4'>
 
@@ -127,38 +154,38 @@ const MessagePage = () => {
       </header>
 
       {/**show all message */}
-      <section className='h-[calc(100vh-128px)]  overflow-x-hidden overflow-y-scroll scrollbar relative'>
+      <section className='h-[calc(100vh-128px)]  overflow-x-hidden overflow-y-scroll scrollbar relative bg-slate-200 bg-opacity-60'>
         {/**upload image display */}
         {
           message.imageUrl && (
             <div className='w-full h-full bg-slate-700 bg-opacity-30  flex justify-center  items-center rounded overflow-hidden'>
-              <div className='w-fit  p-2 absolute top-0 right-0 cursor-pointer hover:text-purple1'onClick={handleClearUploadImage}>
-                  <IoClose size={25}/>
+              <div className='w-fit  p-2 absolute top-0 right-0 cursor-pointer hover:text-purple1' onClick={handleClearUploadImage}>
+                <IoClose size={25} />
               </div>
               <div className='bg-white p-3'>
                 <img src={message.imageUrl}
-                  
-                  alt='uploadImage' 
-                  className='aspect-square w-full max-w-sm m-2 object-scale-down'/>
+
+                  alt='uploadImage'
+                  className='aspect-square w-full max-w-sm m-2 object-scale-down' />
               </div>
             </div>
           )
         }
 
-{/**upload video display */}
-{
+        {/**upload video display */}
+        {
           message.videoUrl && (
             <div className='w-full h-full bg-slate-700 bg-opacity-30  flex justify-center  items-center rounded overflow-hidden'>
-              <div className='w-fit  p-2 absolute top-0 right-0 cursor-pointer hover:text-purple1'onClick={handleClearUploadVideo}>
-                  <IoClose size={25}/>
+              <div className='w-fit  p-2 absolute top-0 right-0 cursor-pointer hover:text-purple1' onClick={handleClearUploadVideo}>
+                <IoClose size={25} />
               </div>
               <div className='bg-white p-3'>
                 <video
-                src={message.videoUrl}
-                controls
-                muted
-                autoPlay
-                className='aspect-square w-full max-w-sm m-2 object-scale-down'
+                  src={message.videoUrl}
+                  controls
+                  muted
+                  autoPlay
+                  className='aspect-square w-full max-w-sm m-2 object-scale-down'
                 />
               </div>
             </div>
@@ -167,7 +194,7 @@ const MessagePage = () => {
         {
           loading && (
             <div className='w-full  h-full flex justify-center items-center'>
-              <Loading/>
+              <Loading />
             </div>
           )
         }
@@ -216,6 +243,24 @@ const MessagePage = () => {
           }
 
         </div>
+
+        {/**input box */}
+        <form className='h-full w-full flex gap-2' onSubmit={handleSendMessage}>
+          
+            <input
+              type="text"
+              placeholder='Enter the message...'
+              className='py-1 px-4 outline-none  w-full  h-full '
+              value={message?.text}
+              onChange={handleOnChange}
+            />
+          <button className='hover:text-purple1'>
+           <IoSend
+           size={25}
+           />
+          </button>
+        </form>
+
 
       </section>
 

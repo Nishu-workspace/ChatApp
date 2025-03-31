@@ -4,7 +4,7 @@ const http = require('http')
 const getUserDetailsFromToken = require('../helpers/getUserDetailsFromToken')
 const userModel = require('../models/userModel')
 const { profile } = require('console')
-
+const { conversationModel, messageModel } = require('../models/conversationModel')
 const app = express()
 
 /**Socket connection */
@@ -50,6 +50,63 @@ io.on('connection', async (socket) => {
         }
         socket.emit('message-user', payload)
     })
+
+    //new message 
+    socket.on('new message', async (data) => {
+
+        // checking if convo exist or not
+        let conversation = await conversationModel.findOne({
+            "$or": [
+                {
+                    sender: data?.sender,
+                    receiver: data?.receiver
+                },
+                {
+                    sender: data?.receiver,
+                    receiver: data?.sender
+                }
+            ]
+        })
+        console.log("conversation", conversation)
+        //if convo  don't exist then create one
+        if (!conversation) {
+            const createConversation = await conversationModel({
+                sender: data?.sender,
+                receiver: data?.receiver
+            })
+            conversation = await createConversation.save()
+        }
+        const message =  new messageModel({
+
+            text: data?.text,
+            imageUrl: data?.imageUrl,
+            videoUrl: data?.videoUrl
+
+        })
+        const saveMessage = await message.save()
+        console.log('new message', saveMessage)
+        console.log("conversation", conversation)
+        const updateConversation = await conversationModel.updateOne({ _id: conversation?._id }, {
+            "$push": {
+                messages: saveMessage?._id
+            }
+        })
+        console.log("updateConversation", updateConversation)
+        const getConversation = await conversationModel.findOne({
+            "$or": [
+                {
+                    sender: data?.sender,
+                    receiver: data?.receiver
+                },
+                {
+                    sender: data?.receiver,
+                    receiver: data?.sender
+                }
+            ]
+        })
+        console.log("getconversation", getConversation)
+    })
+
     //disconnect
     socket.on('disconnect', () => {
         onlineUser.delete(user?._id)
