@@ -10,20 +10,20 @@ const EditUserDetails = ({ onClose, user }) => {
   const [data, setData] = useState({
 
 
-    name: user?.user,
-    profile_pic: user?.profile_pic
+    name: user?.user || "",
+    profile_pic: user?.profile_pic || ""
   })
   const uploadPhotoRef = useRef()
   const dispatch = useDispatch()
   // console.log('user',user)
   useEffect(() => {
-    setData((preve) => {
-      return {
+    if (user) {
+      setData((preve) => ({
         ...preve,
-        ...user
-      }
-
-    })
+        name: user.name || "",
+        profile_pic: user.profile_pic || ""
+      }))
+    }
   }, [user])
   const handleOnChange = (e) => {
     const { name, value } = e.target
@@ -71,7 +71,7 @@ const EditUserDetails = ({ onClose, user }) => {
           onClose()
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error)
+      toast.error(error?.response?.data?.message || 'error')
     }
 
   }
@@ -89,7 +89,7 @@ const EditUserDetails = ({ onClose, user }) => {
               type='text'
               name='name'
               id='name'
-              value={data.name}
+              value={data?.name}
               onChange={handleOnChange}
               className='bg-white  w-full py-1 px-2 focus:outline-purple1 border border-purple1'
             />
