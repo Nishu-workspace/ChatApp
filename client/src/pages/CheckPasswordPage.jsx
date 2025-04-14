@@ -15,12 +15,12 @@ const  CheckPasswordPage = () => {
 
     password: ""
   })
-  
+ 
   const navigate = useNavigate()
   const location = useLocation()
   const  dispatch = useDispatch()
   console.log("location", location?.state)
-
+  
   useEffect(()=>{
     if(!location?.state?.name){
       navigate('/email')
@@ -35,7 +35,25 @@ const  CheckPasswordPage = () => {
       }
     })
   }
+  
  
+
+
+  const handleForgotPassword = async (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/send-otp`
+    try {
+      console.log("email", location?.state?.email)
+      const response = await axios.post(URL, {email: location?.state?.email})
+      console.log('response', response)
+      toast.success(response.data.message)
+      navigate('/reset-password', { state: { email: location?.state?.email } })
+    } catch (error) {
+      toast.error(error?.response?.data?.message)
+      console.log("error", error)
+    }
+  }
   const handleSubmit = async(e) => {
     e.preventDefault()
     e.stopPropagation()
@@ -90,7 +108,7 @@ const  CheckPasswordPage = () => {
         
         {/* Password */}
         <div className="flex flex-col gap-1">
-          <label htmlFor="password">Passwoord</label>
+          <label htmlFor="password">Password</label>
           <input type="password"
             id='password'
             name='password'
@@ -110,7 +128,7 @@ const  CheckPasswordPage = () => {
           Login
         </button>
       </form>
-      <p className='my-3 text-center'>New User? <Link to={"/forgot-password"} className="hover:text-purple1 font-semibold">Forgot Password?</Link></p>
+      <p className='my-3 text-center'>New User? <Link onClick={handleForgotPassword}className="hover:text-purple1 font-semibold">Forgot Password?</Link></p>
     </div>
   </div>
   )

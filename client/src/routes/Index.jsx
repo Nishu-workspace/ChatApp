@@ -8,6 +8,7 @@ import MessagePage from '../components/MessagePage'
 import AuthLayouts from '../layout'
 import ForgotPassword from '../pages/ForgotPassword'
 import LandingPage from '../pages/LandingPage'
+import VerifyOtp from '../pages/VerifyOtp'
 const router = createBrowserRouter([
     {
         path:"/",
@@ -21,7 +22,13 @@ const router = createBrowserRouter([
                 path:"register",
                 element:<AuthLayouts><Register/></AuthLayouts>,
 
-            },{
+            },
+            {
+                path:"verify-otp",
+                element:<AuthLayouts><VerifyOtp/></AuthLayouts>,
+
+            },
+            {
                 path:"email",
                 element:<AuthLayouts><CheckEmailPage/></AuthLayouts>
             },
@@ -30,7 +37,7 @@ const router = createBrowserRouter([
                 element:<AuthLayouts><CheckPasswordPage/></AuthLayouts>
             },
             {
-                path:"forgot-password",
+                path:"reset-password",
                 element:<AuthLayouts><ForgotPassword/></AuthLayouts>
             },
             {

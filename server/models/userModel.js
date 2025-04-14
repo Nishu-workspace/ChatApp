@@ -18,8 +18,16 @@ const userSchema = new mongoose.Schema({
     profile_pic : {
         type : String,
         default : "",
+    },
+    isVerified :{ type: Boolean, default: false},
+    otp:{
+        type:  String,
+        default: null
+    },
+    otpExpires :{
+        type:Date,
+        default: null
     }
-
 }, {
     timestamps: true
 })

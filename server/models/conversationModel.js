@@ -5,7 +5,7 @@ const messageSchema = new  mongoose.Schema({
         type: String,
         default: ""
     },
-    imaageUrl :{
+    imageUrl :{
         type: String,
         default: ""
     },
@@ -16,6 +16,11 @@ const messageSchema = new  mongoose.Schema({
     seen: {
         type: Boolean,
         default:false
+    },
+    msgByUserId: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'User'
     }
 },{
     timestamps: true
@@ -26,17 +31,17 @@ const conversationSchema = new mongoose.Schema({
     sender : {
         type: mongoose.Schema.ObjectId,
         required: true,
-        ref: 'User,'
+        ref: 'User'
     },
-    sender : {
+    receiver : {
         type: mongoose.Schema.ObjectId,
         required: true,
         ref: 'User'
     },
-    message : [
+    messages : [
         {
             type:mongoose.Schema.ObjectId,
-            ref: 'Messaage'
+            ref: 'Message'
         }
     ]
 },{timestamps:true})
