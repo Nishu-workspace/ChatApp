@@ -23,10 +23,11 @@ try{
             otpExpires:otpExpires
         })
         const transporter = nodemailer.createTransport({
+            service:"Gmail",
             host: process.env.SMTP_HOST,
             port: process.env.SMTP_PORT,
         
-            secure: false,
+            secure: true,
             auth:{
                 type: 'login',
                 user: process.env.EMAIL_USER,
@@ -35,7 +36,7 @@ try{
         })
         console.log(email)
         await transporter.sendMail({
-            from: '"Support Team" suppor.chatapp@zohomail.in',
+            from: '"Support Team" howworld188@gmail.com',
             to: email,
             subject: `Verfiy your  Email - ${otp}`,
             html:`<h1>Welcome to Chat App</h1>
