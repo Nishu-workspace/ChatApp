@@ -286,11 +286,13 @@ const MessagePage = () => {
                   type="file"
                   id='uploadImage'
                   className='hidden'
+                  accept='image/*'
                   onChange={handleUploadImage}
                 />
                 <input
                   type="file"
                   id='uploadVideo'
+                  accept='video/*'
                   className='hidden'
                   onChange={handleUploadVideo}
                 />
