@@ -41,7 +41,8 @@ const Avatar = ({userId,name,imageUrl,width,height}) => {
                 width={width}
                 height={height}
                 alt={name}
-                className='overflow-hidden rounded-full'
+                className='rounded-full object-cover w-full h-full '
+
                 />
                
             ) : (

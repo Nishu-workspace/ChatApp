@@ -13,9 +13,11 @@ import Loading from './Loading';
 import backgroundImage from '../assets/wallapaper.jpeg'
 import { IoSend } from "react-icons/io5";
 import moment from 'moment'
+
 const MessagePage = () => {
   const params = useParams()
   const socketConnection = useSelector(state => { return state?.user?.socketConnect })
+  const [currentConversationId, setCurrentConversationId] = useState("")
   const user = useSelector(state => state?.user)
   const [dataUser, setDataUser] = useState({
     _id: "",
@@ -36,6 +38,7 @@ const MessagePage = () => {
   const currentMessage = useRef(null)
 
   useEffect(() => {
+    
     if (currentMessage.current) {
       currentMessage.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
     }
@@ -46,21 +49,64 @@ const MessagePage = () => {
     setOpenImageVideoUpload(preve => !preve)
   }
   useEffect(() => {
-    if (socketConnection) {
+    console.log("socketConnection", socketConnection)
+   
+
+    // if (socketConnection && params?.userId) {
+    //   socketConnection.emit('message-page', params.userId)
+
+    //   socketConnection.emit('seen',params.userId)
+    //   socketConnection.on('message-user', (data) => {
+
+    //     setDataUser(data)
+    //     setCurrentConversationId(data.conversationId) 
+    //   })
+     
+
+    // }
+    if (socketConnection && params?.userId) {
       socketConnection.emit('message-page', params.userId)
-
-      socketConnection.emit('seen',params.userId)
-      socketConnection.on('message-user', (data) => {
-
+      socketConnection.emit('seen', params.userId)
+  
+      const handleMessageUser = (data) => {
+        console.log("handleMessageData",data)
         setDataUser(data)
-      })
-      socketConnection.on('message', (data) => {
-        console.log("message data", data)
-        setAllMessage(data)
-      })
-
+        setCurrentConversationId(data.conversationId) // backend must send this!
+      }
+  
+      socketConnection.on('message-user', handleMessageUser)
+  
+      return () => {
+        socketConnection.off('message-user', handleMessageUser)
+      }
     }
   }, [socketConnection, params?.userId, user])
+
+  useEffect(()=>{
+   console.log("socketConnection", socketConnection)
+   console.log("currentConvoId", currentConversationId)
+    if(!socketConnection || !currentConversationId) return
+    const handleMessage = (data) =>{
+      const { conversationId, messages} = data
+      console.log("messaage from server:", data)
+      if(conversationId === currentConversationId){
+        setAllMessage(messages)
+      }
+    }
+    
+    socketConnection.on('message',handleMessage)
+    return ()=>{
+      socketConnection.off('message',handleMessage)
+    }
+    // socketConnection.on('message', (data) => {
+    //   const {messages, conversationId} = data
+    //   console.log("message data", data)
+
+    //   if(conversationId == currentConversationId){
+    //   setAllMessage(messages)
+    // }
+    // })
+  },[socketConnection,currentConversationId])
 
   const handleUploadImage = async (e) => {
     const file = e.target.files[0]
