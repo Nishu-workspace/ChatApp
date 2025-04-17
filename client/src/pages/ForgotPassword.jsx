@@ -11,6 +11,7 @@ const ForgotPassword = () => {
   const [data,setData] = useState({
     email:location?.state?.email || "",
     password: "",
+    confirmPassword: "",
     otp:""
   })
   console.log("location", location?.state)
@@ -25,8 +26,24 @@ const ForgotPassword = () => {
  })
   } 
   const handleSubmit = async(e)=>{
-    
     e.preventDefault()
+    if (data.password.length < 8 || data.password.length > 10 ) {
+      toast.error("Password must be at least 8 and Atmost 10 Character Long");
+      return;
+    }
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
+    if (!regex.test(data.password)) {
+      toast.error("Password must contain at least one number and one special character");
+      return;
+    }
+    if(data.password != data.confirmPassword){
+      toast.error("Password does not match")
+      return;
+    }
+
+
+
+    
 
  const URL = `${import.meta.env.VITE_BACKEND_URL}/api/reset-password`
 
@@ -46,8 +63,8 @@ const ForgotPassword = () => {
 
   }
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form onSubmit={handleSubmit} className='flex flex-col items-center justify-center gap-2 '>
+      <div className='flex flex-col items-start gap-1 mb-4 w-[300px]'>
         <label htmlFor="otp">Enter the otp</label>
         <input 
         type="text" 
@@ -57,16 +74,16 @@ const ForgotPassword = () => {
         onChange={handleOnChange}
         />
       </div>
-      <div>
+      <div className='flex flex-col items-start gap-1 mb-4 w-[300px]'>
         <label htmlFor="reset-password">Enter the new password</label>
         <input type="password" id='reset-password' name='password' value={data.password} 
          onChange={handleOnChange}/>
       </div>
-      <div>
-        <label htmlFor="confirm-password">Confirm password</label>
-        <input type="password" id='confrim password.' />
+      <div className='flex flex-col items-start gap-1 mb-4 w-[300px]'>
+        <label htmlFor="confirmPassword">Confirm password</label>
+        <input type="password" name='confirmPassword' id='confrimPassword.' value={data.confirmPassword} onChange={handleOnChange}/>
       </div>
-      <button>
+      <button className='border rounded border-purple1 px-4 bg-purpel2 hover:bg-purple1 hover:text-white  '>
         Submit
       </button>
     </form>
