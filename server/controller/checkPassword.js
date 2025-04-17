@@ -27,7 +27,9 @@ async function checkPassword(request, response) {
         const token = await  jwt.sign(tokenData, process.env.JWT_SECRET_KEY,{expiresIn: '1d'})
         const cookieOption = {
             http: true,
-            secure : true
+            secure : true,
+            sameSite:"None",
+            maxAge: 7*24*60*60*1000
         }
 
         return response.cookie('token',token,cookieOption).status(200).json({

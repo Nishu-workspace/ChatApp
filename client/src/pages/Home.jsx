@@ -75,21 +75,22 @@ useEffect(()=>{
       </div> */}
 
       {/* Right Side: Chat Outlet OR Placeholder */}
-  <section >
-    {basePath ? (
-      <div className={`justify-center flex-col items-center  gap-2 hidden ${!basePath ? "hidden":"lg:flex"}` }>
+      <section className={`${basePath ? "hidden lg:flex" : "block"} justify-center flex-col items-center gap-2`}>
+  {basePath ? (
+    <div className='flex flex-col justify-center items-center gap-2'>
       <div>
         <img 
-        src={logo} 
-        width={250} 
-        alt='logo' />
+          src={logo} 
+          width={250} 
+          alt='logo' 
+        />
       </div>
-      <p className='text-lg mt-2 text-slate-500'> Select user to send message</p>
+      <p className='text-lg mt-2 text-slate-500'>Select user to send message</p>
     </div>
-    ) : (
-      <Outlet />
-    )}
-  </section>
+  ) : (
+    <Outlet />
+  )}
+</section>
     </div>
   )
 }

@@ -65,9 +65,20 @@ const MessagePage = () => {
 
     // }
     if (socketConnection && params?.userId) {
+
+      setDataUser({
+        _id: "",
+        name: "",
+        email: "",
+        profile_pic: "",
+        online: false
+      })
+      setAllMessage([])
+      setCurrentConversationId("")
       socketConnection.emit('message-page', params.userId)
       socketConnection.emit('seen', params.userId)
   
+      
       const handleMessageUser = (data) => {
         console.log("handleMessageData",data)
         setDataUser(data)
@@ -80,17 +91,18 @@ const MessagePage = () => {
         socketConnection.off('message-user', handleMessageUser)
       }
     }
-  }, [socketConnection, params?.userId, user])
+  }, [socketConnection, params?.userId])
 
   useEffect(()=>{
    console.log("socketConnection", socketConnection)
    console.log("currentConvoId", currentConversationId)
-    if(!socketConnection || !currentConversationId) return
+    if(!socketConnection ) return
     const handleMessage = (data) =>{
       const { conversationId, messages} = data
       console.log("messaage from server:", data)
-      if(conversationId === currentConversationId){
+      if( !currentConversationId || conversationId === currentConversationId){
         setAllMessage(messages)
+        setCurrentConversationId(conversationId)
       }
     }
     

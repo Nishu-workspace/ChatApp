@@ -64,14 +64,16 @@ const Sidebar = () => {
  }
     return (
         <div className='w-full h-full grid grid-cols-[48px,1fr] bg-white'>
-            <div className='bg-slate-100 w-12 h-full rounded-tr-lg rounded-br-lg py-4 flex flex-col justify-between  '>
+            <div className='bg-[#F9F9FC] w-12 h-full rounded-tr-lg rounded-br-lg py-4 flex flex-col justify-between  '>
                 <div>
 
-                    <NavLink className={({ isActive }) => `w-12 h-12  flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded ${isActive && 'bg-slate-200'}`} title='chat'>
-                        <IoChatbubbleEllipses size={25} />
-                    </NavLink>
+                <NavLink className={({ isActive }) =>
+  `w-12 h-12 flex justify-center items-center cursor-pointer rounded-t-sm transition-all duration-150 
+   hover:bg-[#F3F0FF] ${isActive ? 'bg-[#EDE9FE] text-[#7C3AED]' : 'text-gray-600'}` }>
+   <IoChatbubbleEllipses size={24} />
+</NavLink>
 
-                    <div title="add friend" onClick={() => setOpenSearchUser(true)} className='w-12 h-12  flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded
+                    <div title="add friend" onClick={() => setOpenSearchUser(true)} className='w-12 h-12  flex justify-center items-center cursor-pointer hover:bg-[#F3F0FF] rounded-b-sm hover:text-[#7C3AED]
             '>
                         <FaUserPlus size={25} />
 
@@ -79,7 +81,7 @@ const Sidebar = () => {
                 </div>
 
                 <div>
-                    <button className='w-12 h-12  flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded
+                    <button className='w-12 h-12  flex justify-center items-center cursor-pointer hover:bg-[#F3F0FF]  rounded
             ' title={user?.name} onClick={() => setEditUserOpen(true)}>
 
                         <Avatar
@@ -91,7 +93,7 @@ const Sidebar = () => {
 
                     </button>
 
-                    <button title="logout" className='w-12 h-12  flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded
+                    <button title="logout" className='w-12 h-12  flex justify-center items-center cursor-pointer hover:bg-[#F3F0FF]  rounded
             ' onClick={handleLogout}>
                         <span className='-ml-2'>
                             <BiLogOut size={25} />
@@ -101,76 +103,71 @@ const Sidebar = () => {
                 </div>
             </div>
 
-            <div className='w-full'>
-                <div className='h-16 flex items-center'>
-                    <h2 className='text-xl font-bold p-4   text-slate-800 '>Message</h2>
-                </div>
-                <Divider />
-                <div className='h-[calc(100vh)-65px] overflow-x-hidden overflow-y-auto scrollbar '>
-                    {
-                        allUser.length === 0 && (
-                            <div className='mt-12'>
-                                <div className='flex justify-center items-center my-4 text-slate-500'>
-                                    <LuArrowUpLeft
-                                        size={50}
-                                    />
-                                </div>
-                                <p className='text-lg text-center text-slate-600'>
-                                    Explose users to start a conversation with.
-                                </p>
-                            </div>
-                        )
-                    }
-                    {
-                        allUser.map((conv, index) => {
-                            console.log("conv",conv)
-                            return (
-                                <NavLink to={"/home/"+conv.userDetails?._id} key={conv?._id} className='flex items-center gap-2 p-2 border-t  border-b py-3 px-2 hover:border-purple1  hover:border-t-purple1 hover:bg-purple-100 cursor-pointer '>
-                                    <div>
-                                        <Avatar
-                                        imageUrl={conv?.userDetails?.profile_pic}
-                                        name={conv.userDetails?.name}
-                                        width={35}
-                                        height={35}
-                                        />
-                                    </div>
-                                    <div >
-                                        <h3 className='text-ellipsis line-clamp-1 font-semibold text-base'>{conv?.userDetails?.name}</h3>
-                                        <div className='text-slate-500 text-xs flex items-center gap-1'>
-                                         <div >
-                                            {
-                                                conv?.lastMg?.imageUrl && (
-                                                <div className='flex items-center gap-1'>
-                                                    <span ><FaImage/></span>
-                                                   {!conv?.lastMg?.text && <span>Image</span> } 
-                                                </div>
-                                                )
-                                            }
-                                            {
-                                                conv?.lastMg?.videoUrl && (
-                                                <div className='flex items-center gap-1'>
-                                                    <span ><IoVideocam/></span>
-                                                    {!conv?.lastMg?.text && <span>Video</span> } 
-                                                </div>
-                                                )
-                                            }
-                                         </div>
-                                            <p className='text-xs text-ellipsis line-clamp-1'>{conv?.lastMg?.text}</p>
-                                        </div>
-                                    
-                                    </div>
-                                    {
-                                        Boolean(conv?.unseenMsg) && (
-                                            <p className='flex justify-center items-center w-6 h-6 text-sm ml-auto p-1 bg-purple2 text-purple1 font-semibold rounded-full'>{conv?.unseenMsg}</p>
-                                    )
-                                    }
-                                    
-                                </NavLink>
-                            )
-                        })
-                    }
-                </div>
+            <div className='w-full h-screen flex flex-col'>
+  {/* Sticky Header */}
+  <div className='sticky top-0 z-10 bg-white'>
+    <div className='h-16 flex items-center'>
+      <h2 className='text-xl font-bold p-4 text-slate-800'>Message</h2>
+    </div>
+    <Divider />
+  </div>
+
+  {/* Scrollable List */}
+  <div className='flex-1 overflow-y-auto overflow-x-hidden scrollbar'>
+    {
+      allUser.length === 0 ? (
+        <div className='mt-12'>
+          <div className='flex justify-center items-center my-4 text-slate-500'>
+            <LuArrowUpLeft size={50} />
+          </div>
+          <p className='text-lg text-center text-slate-600'>
+            Explose users to start a conversation with.
+          </p>
+        </div>
+      ) :
+      allUser.map((conv, index) => (
+        <NavLink to={"/home/" + conv.userDetails?._id} key={conv?._id} className={({ isActive }) => `
+          flex items-center gap-3 px-4 py-3 
+          border-b border-gray-200 
+          transition-all duration-150
+          ${isActive ? 'bg-[#EDE9FE] border-l-4 border-[#7C3AED]' : 'hover:bg-[#F3F0FF]'}
+        `}>
+          <div>
+            <Avatar
+              imageUrl={conv?.userDetails?.profile_pic}
+              name={conv.userDetails?.name}
+              width={35}
+              height={35}
+            />
+          </div>
+          <div>
+            <h3 className='text-ellipsis line-clamp-1 font-semibold text-base'>
+              {conv?.userDetails?.name}
+            </h3>
+            <div className='text-slate-500 text-xs flex items-center gap-1'>
+              {conv?.lastMg?.imageUrl && (
+                <span className='flex items-center gap-1'>
+                  <FaImage /> {!conv?.lastMg?.text && <span>Image</span>}
+                </span>
+              )}
+              {conv?.lastMg?.videoUrl && (
+                <span className='flex items-center gap-1'>
+                  <IoVideocam /> {!conv?.lastMg?.text && <span>Video</span>}
+                </span>
+              )}
+              <p className='text-xs text-ellipsis line-clamp-1'>{conv?.lastMg?.text}</p>
             </div>
+          </div>
+          {Boolean(conv?.unseenMsg) && (
+            <p className='flex justify-center items-center w-5 h-5 text-xs ml-auto rounded-full font-medium bg-[#DDD6FE] text-[#5B21B6]'>
+              {conv?.unseenMsg}
+            </p>
+          )}
+        </NavLink>
+      ))
+    }
+  </div>
+</div>
             {/***edit user details */}
             {
                 editUserOpen && (

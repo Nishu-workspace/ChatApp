@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom'
 
 const UserSearchCard = ({user, onClose}) => {
   return (
-    <Link to={"/home/"+user?._id} onClick={onClose} className='flex items-center gap-3 mt-2 lg:p-4 border border-transparent border-b-slate-400 hover:border hover:border-purple1 rounded cursor-pointer'>
+
+    // Link to={"/home/"+user?._id} 
+    <Link to={"/home/"+user?._id} onClick={onClose} className='flex items-center gap-4 p-3 rounded-lg cursor-pointer 
+                 hover:bg-[#F3F0FF] transition-all duration-150 border border-transparent 
+                 hover:border-[#C4B5FD]'>
         <div>
             <Avatar
            width={50} 
@@ -16,9 +20,9 @@ const UserSearchCard = ({user, onClose}) => {
         </div>
         <div>
         <div className='font-semibold text-ellipsis line-clamp-1'>
-            {user?.name}
+            <p className='font-semibold text-sm text-gray-800 truncate'>{user?.name}</p>
         </div>
-        <p className='text-sm text-ellipsis'>{user?.email}</p>
+        <p className='text-xs text-gray-500 truncate'>{user?.email}</p>
         </div>
     </Link>
   )
