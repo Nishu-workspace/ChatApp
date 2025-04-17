@@ -51,7 +51,7 @@ console.log("search user", searchUser
                     </div>
                 </div>
                 {/**display search user */}
-                <div className='bg-white mt-2 w-full p-4 rounded'>
+                <div className='bg-white mt-4 w-full p-4 rounded-xl max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#C4B5FD] scrollbar-track-gray-100'>
                     {/**No user Found */}
                     {
                         searchUser.length === 0 && !loading && (

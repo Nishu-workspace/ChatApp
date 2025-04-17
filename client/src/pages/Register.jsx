@@ -176,7 +176,7 @@ const Register = () => {
             <input type="file"
               id='profile_pic'
               name='profile_pic'
-
+              accept='image/*'
               className='bg-slate-100 px-2 py-2 focus:outline-primary hidden'
               onChange={handelUploadPhoto}
 
