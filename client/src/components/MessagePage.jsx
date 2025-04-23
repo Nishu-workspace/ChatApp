@@ -13,6 +13,10 @@ import Loading from './Loading';
 import backgroundImage from '../assets/wallapaper.jpeg'
 import { IoSend } from "react-icons/io5";
 import moment from 'moment'
+import { marked } from "marked"
+import DOMPurify from 'dompurify'
+
+
 
 const MessagePage = () => {
   const params = useParams()
@@ -264,7 +268,14 @@ const MessagePage = () => {
                   )
                   }
                 </div>
-                <p className='px-2'> {msg.text} </p>
+                <div
+  dangerouslySetInnerHTML={{
+    __html: DOMPurify.sanitize(marked.parse(msg.text))
+  }}
+></div>
+                {msg.translatedText && msg.text !== msg.translatedText && (
+  <p className='px-2 text-sm text-gray-500 italic'>({msg.translatedText})</p>
+)}
                 <p className='text-xs ml-auto w-fit'>{moment(msg.createdAt).format('hh:mm')}</p>
               </div>
             )

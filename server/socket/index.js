@@ -6,6 +6,7 @@ const userModel = require('../models/userModel')
 const { profile } = require('console')
 const { conversationModel, messageModel } = require('../models/conversationModel')
 const getConversation = require('../helpers/getConversation')
+const { default: axios } = require('axios')
 const app = express()
 
 /**Socket connection */
@@ -63,8 +64,11 @@ io.on('connection', async (socket) => {
             name: userDetails?.name,
             email: userDetails?.email,
             profile_pic: userDetails?.profile_pic,
+            language: userDetails?.language,
             online: onlineUser.has(userId),
+            
             conversationId: getConversationMessage?._id?.toString()
+            
         }
         socket.emit('message-user', payload)
 
@@ -82,7 +86,8 @@ io.on('connection', async (socket) => {
 
     //new message 
     socket.on('new message', async (data) => {
-
+        const receiverId = data?.receiver
+        const senderId = data?.sender
         // checking if convo exist or not
         let conversation = await conversationModel.findOne({
             "$or": [
@@ -105,12 +110,53 @@ io.on('connection', async (socket) => {
             })
             conversation = await createConversation.save()
         }
+        //Getting receiver info
+        const recevier = await userModel.findById(receiverId)
+        const preferredLang = recevier.language
+        
+        
+        //Checking sender's message language
+        const isHindi = /[\u0900-\u097F]/.test(data?.text)
+        const senderLang = isHindi ? 'hi': 'en';
+        // const translateMessage = async (text, from, to) => {
+        //     try {
+        //         const res = await fetch("https://translate-api-production-352a.up.railway.app/translate", {
+        //             method: "POST",
+        //             body: JSON.stringify({
+        //               q: text,
+        //               source: from,
+        //               target: to,
+        //               format: "text"
+        //             }),
+        //             headers: { "Content-Type": "application/json" }
+        //           })
+        //           console.log("res",res)
+        //           const data = await res.json()
+        //           console.log("data",data)
+        //           console.log("tranlsated text",data.translatedText )
+        //           return data.translatedText
+        //     } catch (err) {
+        //       console.error("Translation error:", err.message)
+        //       return text // fallback
+        //     }
+        //   }
+        //   console.log("senderLang", senderLang);
+        //   console.log("preferredLang",preferredLang)
+        //   console.log("text",data?.text)
+        //   let translatedText = ''
+        // if(senderLang !== preferredLang){
+        //     translatedText = await translateMessage(data?.text, senderLang, preferredLang)
+        //     console.log(translatedText)
+            
+        // }
+        // console.log("translated",translatedText)
         const message = new messageModel({
 
             text: data?.text,
             imageUrl: data?.imageUrl,
             videoUrl: data?.videoUrl,
-            msgByUserId: data?.msgByUserId
+            msgByUserId: data?.msgByUserId,
+            // translatedText: translatedText || ""
 
         })
         const saveMessage = await message.save()
