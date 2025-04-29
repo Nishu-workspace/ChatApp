@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema({
     otpExpires :{
         type:Date,
         default: null
+    },
+    language: {
+        type: String,
+        enum: ['en','hi'],
+        default: 'en'
     }
 }, {
     timestamps: true

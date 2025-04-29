@@ -5,6 +5,10 @@ const messageSchema = new  mongoose.Schema({
         type: String,
         default: ""
     },
+    translatedText :{
+        type: String,
+        default: ""
+    },
     imageUrl :{
         type: String,
         default: ""
