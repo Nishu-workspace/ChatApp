@@ -11,7 +11,8 @@ const EditUserDetails = ({ onClose, user }) => {
 
 
     name: user?.user || "",
-    profile_pic: user?.profile_pic || ""
+    profile_pic: user?.profile_pic || "",
+    laguage :  user?.language || "",
   })
   const uploadPhotoRef = useRef()
   const dispatch = useDispatch()
@@ -21,7 +22,8 @@ const EditUserDetails = ({ onClose, user }) => {
       setData((preve) => ({
         ...preve,
         name: user.name || "",
-        profile_pic: user.profile_pic || ""
+        profile_pic: user.profile_pic || "",
+        language :  user?.language || "",
       }))
     }
   }, [user])
@@ -48,7 +50,8 @@ const EditUserDetails = ({ onClose, user }) => {
     setData((preve) => {
       return {
         ...preve,
-        profile_pic: uploadPhoto?.url
+        profile_pic: uploadPhoto?.url,
+       
       }
     })
   }
@@ -95,6 +98,20 @@ const EditUserDetails = ({ onClose, user }) => {
             />
           </div>
           <div>
+          <div className='flex flex-col gap-1'>
+    <label htmlFor="language">Language:</label>
+    <select
+      name='language'
+      id='language'
+      value={data.language}
+      onChange={handleOnChange}
+      className='bg-white w-full py-1 px-2 border border-purple1 focus:outline-purple1'
+    >
+      <option value="">Select Language</option>
+      <option value="en">English</option>
+      <option value="hi">Hindi</option>
+    </select>
+  </div>
             <div>Photo: </div>
             <div className='my-1 flex items-center gap-4 '>
               <Avatar

@@ -6,11 +6,13 @@ async function updateUserDetails(request,response){
         const token = request.cookies.token || ""
         const user = await getUserDetailsFromToken(token)
 
-        const { name, profile_pic } = request.body
+        const { name, profile_pic, language } = request.body
         const updateUser = await userModel.updateOne({
             _id:user._id},{
             name,
-            profile_pic}
+            profile_pic,
+        
+        language}
         )
         const userInformation  =  await userModel.findById(user._id)
         return response.json({
