@@ -12,7 +12,7 @@ const EditUserDetails = ({ onClose, user }) => {
 
     name: user?.user || "",
     profile_pic: user?.profile_pic || "",
-    laguage :  user?.language || "",
+    language :  user?.language || "",
   })
   const uploadPhotoRef = useRef()
   const dispatch = useDispatch()
